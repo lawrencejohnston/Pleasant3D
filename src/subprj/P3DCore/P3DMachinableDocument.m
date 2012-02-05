@@ -67,6 +67,9 @@ NSString *const kUltimakerClassName = @"P3DUltimaker";
 }
 
 - (void)setupConfiguredMachine {
+  // For now rather than completing the add/select machine functionality we simply
+  // configure and select an Ultimaker in code so that the bed displays when viewing STLs and GCode.
+  
   ConfiguredMachines *machines = [ConfiguredMachines sharedInstance];
     
   NSUInteger ultimakerIndex = [machines.configuredMachines indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
