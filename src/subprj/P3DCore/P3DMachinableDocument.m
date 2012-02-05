@@ -27,6 +27,15 @@
 //
 #import "P3DMachinableDocument.h"
 #import "ConfiguredMachines.h"
+#import "P3DUltimaker.h"
+
+NSString *const kUltimakerClassName = @"P3DUltimaker";
+
+@interface P3DMachinableDocument ()
+
+- (void)setupConfiguredMachine;
+
+@end
 
 @implementation P3DMachinableDocument
 @synthesize selectedMachineUUID;
@@ -40,6 +49,44 @@
 	[userDefaults registerDefaults:ddef];
 }
 
+
+- (id)init {
+  if (self = [super init]) {
+    [self setupConfiguredMachine];
+  }
+              
+  return self;
+}
+
+- (id)initWithContentsOfURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError {
+  if (self = [super initWithContentsOfURL:url ofType:typeName error:outError]) {
+    [self setupConfiguredMachine];
+  }
+  
+  return self;
+}
+
+- (void)setupConfiguredMachine {
+  ConfiguredMachines *machines = [ConfiguredMachines sharedInstance];
+    
+  NSUInteger ultimakerIndex = [machines.configuredMachines indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+    NSDictionary *machineDict = (NSDictionary *)obj;
+    NSString *driverClass = NSStringFromClass([[machineDict objectForKey:@"driver"] class]);
+    if ([driverClass isEqualToString:kUltimakerClassName]) {
+      *stop = YES;
+      return YES;
+    } 
+    
+    return NO;
+  }];
+  
+  if (ultimakerIndex == NSNotFound) {
+    [machines addUnconnectedMachine:kUltimakerClassName];
+    ultimakerIndex = machines.configuredMachines.count - 1;
+  }
+  
+  self.selectedMachineIndex = ultimakerIndex;
+}
 
 - (NSString*)gCodeToMachine
 {
