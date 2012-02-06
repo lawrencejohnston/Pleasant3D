@@ -31,6 +31,11 @@
 
 @interface NSScanner (ParseGCode)
 - (void)updateLocation:(Vector3*)currentLocation;
+
+// This is to handle the new style of extrusion where G1 takes an E parameter that
+// represents how much filament to extrude.
+- (BOOL)extrusionIsOn;
+
 - (BOOL)isLayerStartWithCurrentLocation:(Vector3*)currentLocation oldZ:(float*)oldZ layerStartWordExists:(BOOL)layerStartWordExist;
 @end
 
@@ -53,6 +58,19 @@
 		[self scanFloat:&value];
 		currentLocation.z = value;
 	}
+}
+
+- (BOOL)extrusionIsOn {
+  // Advance to E if it exists (skipping, e.g., F). 
+  // We stop at a semicolon or paren since it marks a comment.
+  // TODO: Support paren comments not at end of the line
+  static NSCharacterSet *extrudeAndCommentSet = nil;
+  if (!extrudeAndCommentSet) {
+    extrudeAndCommentSet = [NSCharacterSet characterSetWithCharactersInString:@"E(;"];
+  }
+  
+  [self scanUpToCharactersFromSet:extrudeAndCommentSet intoString:nil];
+  return [self scanString:@"E" intoString:nil];
 }
 
 - (BOOL)isLayerStartWithCurrentLocation:(Vector3*)currentLocation oldZ:(float*)oldZ layerStartWordExists:(BOOL)layerStartWordExist
@@ -129,13 +147,27 @@ static CGColorRef _extrusionOffColor=nil;
 				currentPane = [NSMutableArray array];
 				[panes addObject:currentPane];
 			}
-			if([lineScanner scanString:@"G1" intoString:nil])
+			
+      // TODO: Support alternate parameter ordering
+      if([lineScanner scanString:@"G1" intoString:nil])
 			{
-				[lineScanner updateLocation:currentLocation];
+        // We must update the location before checking for extrusion because the code 
+        // relys on the scanner being located just before the location if it is present.
+        [lineScanner updateLocation:currentLocation];
+        
+        // We must set the color before the new location is added to the pane.
+        if([lineScanner extrusionIsOn]) {
+          extrusionNumber++;
+          [currentPane addObject:[_extrusionColors objectAtIndex:extrusionNumber%[_extrusionColors count]]];
+        } else {
+          [currentPane addObject:(id)_extrusionOffColor];
+        }
+        
 				[currentPane addObject:[[currentLocation copy] autorelease]];
 				[lowCorner minimizeWith:currentLocation];
-				[highCorner maximizeWith:currentLocation];
+				[highCorner maximizeWith:currentLocation];        
 			}
+      // This handles the now obsolete style of extrusion where M101 is extruder off and M103 is on. 
 			else if([lineScanner scanString:@"M101" intoString:nil])
 			{
 				extrusionNumber++;
