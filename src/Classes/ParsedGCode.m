@@ -61,16 +61,16 @@
 }
 
 - (BOOL)extrusionIsOn {
-  // Advance to E if it exists (skipping, e.g., F). 
-  // We stop at a semicolon or paren since it marks a comment.
-  // TODO: Support paren comments not at end of the line
-  static NSCharacterSet *extrudeAndCommentSet = nil;
-  if (!extrudeAndCommentSet) {
-    extrudeAndCommentSet = [NSCharacterSet characterSetWithCharactersInString:@"E(;"];
-  }
-  
-  [self scanUpToCharactersFromSet:extrudeAndCommentSet intoString:nil];
-  return [self scanString:@"E" intoString:nil];
+	// Advance to E if it exists (skipping, e.g., F). 
+	// We stop at a semicolon or paren since it marks a comment.
+	// TODO: Support paren comments not at end of the line
+	static NSCharacterSet *extrudeAndCommentSet = nil;
+	if (!extrudeAndCommentSet) {
+		extrudeAndCommentSet = [NSCharacterSet characterSetWithCharactersInString:@"E(;"];
+	}
+	
+	[self scanUpToCharactersFromSet:extrudeAndCommentSet intoString:nil];
+	return [self scanString:@"E" intoString:nil];
 }
 
 - (BOOL)isLayerStartWithCurrentLocation:(Vector3*)currentLocation oldZ:(float*)oldZ layerStartWordExists:(BOOL)layerStartWordExist
@@ -125,7 +125,7 @@ static CGColorRef _extrusionOffColor=nil;
 		[untrimmedLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 			[gCodeLineScanners addObject:[NSScanner scannerWithString:[obj stringByTrimmingCharactersInSet:whiteSpaceSet]]];
 		}];
-			
+		
 		extrusionWidth = 0.;
 		
 		BOOL isThereALayerStartWord=[gCodeLineScanners isThereAFirstWord:@"(<layer>"];
@@ -148,26 +148,26 @@ static CGColorRef _extrusionOffColor=nil;
 				[panes addObject:currentPane];
 			}
 			
-      // TODO: Support alternate parameter ordering
-      if([lineScanner scanString:@"G1" intoString:nil])
+			// TODO: Support alternate parameter ordering
+			if([lineScanner scanString:@"G1" intoString:nil])
 			{
-        // We must update the location before checking for extrusion because the code 
-        // relys on the scanner being located just before the location if it is present.
-        [lineScanner updateLocation:currentLocation];
-        
-        // We must set the color before the new location is added to the pane.
-        if([lineScanner extrusionIsOn]) {
-          extrusionNumber++;
-          [currentPane addObject:[_extrusionColors objectAtIndex:extrusionNumber%[_extrusionColors count]]];
-        } else {
-          [currentPane addObject:(id)_extrusionOffColor];
-        }
-        
+				// We must update the location before checking for extrusion because the code 
+				// relys on the scanner being located just before the location if it is present.
+				[lineScanner updateLocation:currentLocation];
+				
+				// We must set the color before the new location is added to the pane.
+				if([lineScanner extrusionIsOn]) {
+					extrusionNumber++;
+					[currentPane addObject:[_extrusionColors objectAtIndex:extrusionNumber%[_extrusionColors count]]];
+				} else {
+					[currentPane addObject:(id)_extrusionOffColor];
+				}
+				
 				[currentPane addObject:[[currentLocation copy] autorelease]];
 				[lowCorner minimizeWith:currentLocation];
 				[highCorner maximizeWith:currentLocation];        
 			}
-      // This handles the now obsolete style of extrusion where M101 is extruder off and M103 is on. 
+			// This handles the now obsolete style of extrusion where M101 is extruder off and M103 is on. 
 			else if([lineScanner scanString:@"M101" intoString:nil])
 			{
 				extrusionNumber++;
