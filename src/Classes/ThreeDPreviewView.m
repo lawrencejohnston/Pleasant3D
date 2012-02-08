@@ -31,6 +31,22 @@
 #import <P3DCore/P3DCore.h>
 #import "trackball.h"
 
+@interface P3DMachineDriverBase (DimensionExtensions)
+- (Vector3 *)calcMidBuildPlatform;
+@end
+
+@implementation P3DMachineDriverBase (DimensionExtensions)
+
+- (Vector3 *)calcMidBuildPlatform {
+	CGFloat midX = self.zeroBuildPlattform.x - self.dimBuildPlattform.x / 2;
+	CGFloat midY = self.zeroBuildPlattform.y - self.dimBuildPlattform.y / 2;
+	CGFloat midZ = self.zeroBuildPlattform.z - self.dimBuildPlattform.z / 2;
+	
+	return [[Vector3 alloc] initVectorWithX:midX Y:midY Z:midZ];
+}
+
+@end
+
 @interface ThreeDPreviewView (Private)
 - (void)resetGraphics;
 @end
@@ -81,28 +97,29 @@
 			CGFloat height;
 			CGFloat midX;
 			CGFloat midY;
-            if(self.currentMachine.dimBuildPlattform)
-            {
-                width = (self.currentMachine.dimBuildPlattform.x)*1.1;
-                height = (self.currentMachine.dimBuildPlattform.y)*1.1;
-                midX = self.currentMachine.zeroBuildPlattform.x-self.currentMachine.dimBuildPlattform.x/2.;
-                midY = self.currentMachine.zeroBuildPlattform.y-self.currentMachine.dimBuildPlattform.y/2.;
-            }
-            else
-            {
-                width = (boundsInPixelUnits.size.width)*1.1;
-                height = (boundsInPixelUnits.size.height)*1.1;
-                midX = boundsInPixelUnits.size.width/2.;
-                midY = boundsInPixelUnits.size.height/2.;
-            }
-			CGFloat ratio = boundsInPixelUnits.size.width / boundsInPixelUnits.size.height;
-			if(ratio>1.)
+			if(self.currentMachine.dimBuildPlattform)
 			{
-				glOrtho(midX-height/2.*ratio, midX+height/2.*ratio, midY-height/2., midY+height/2.,  -1., 1.);
+				width = (self.currentMachine.dimBuildPlattform.x)*1.1;
+				height = (self.currentMachine.dimBuildPlattform.y)*1.1;
+				Vector3 *mid = [self.currentMachine calcMidBuildPlatform];
+				midX = mid.x;
+				midY = mid.y;
 			}
 			else
 			{
-				glOrtho(midX-width/2., midX+width/2., midY-width/2./ratio, midY+width/2./ratio,  -1., 1.);
+				width = (boundsInPixelUnits.size.width)*1.1;
+				height = (boundsInPixelUnits.size.height)*1.1;
+				midX = boundsInPixelUnits.size.width/2.;
+				midY = boundsInPixelUnits.size.height/2.;
+			}
+			CGFloat ratio = boundsInPixelUnits.size.width / boundsInPixelUnits.size.height;
+			if(ratio>1.)
+			{
+				glOrtho(midX-height/2.*ratio, midX+height/2.*ratio, midY-height/2., midY+height/2.,	 -1., 1.);
+			}
+			else
+			{
+				glOrtho(midX-width/2., midX+width/2., midY-width/2./ratio, midY+width/2./ratio,	 -1., 1.);
 			}
 		}
 		glMatrixMode( GL_MODELVIEW );
@@ -116,7 +133,7 @@
 }
 
 + (NSSet *)keyPathsForValuesAffectingCurrentLayerHeight {
-    return [NSSet setWithObjects:@"currentLayer", nil];
+	return [NSSet setWithObjects:@"currentLayer", nil];
 }
 
 - (void)setCurrentLayerHeight:(float)value
@@ -127,7 +144,7 @@
 }
 
 + (NSSet *)keyPathsForValuesAffectingCurrentLayer {
-    return [NSSet setWithObjects:@"currentLayerHeight", nil];
+	return [NSSet setWithObjects:@"currentLayerHeight", nil];
 }
 
 - (void)setCurrentLayer:(NSUInteger)value
@@ -138,7 +155,7 @@
 }
 
 + (NSSet *)keyPathsForValuesAffectingUserRequestedAutorotate {
-    return [NSSet setWithObjects:@"autorotate", nil];
+	return [NSSet setWithObjects:@"autorotate", nil];
 }
 
 - (BOOL)userRequestedAutorotate
@@ -209,18 +226,26 @@
 - (IBAction)resetPerspective:(id)sender
 {
 	self.autorotate=NO;
-    if(self.currentMachine.dimBuildPlattform)
-        cameraOffset = - 2*MAX( self.currentMachine.dimBuildPlattform.x, self.currentMachine.dimBuildPlattform.y);
-    else
-    {
+	if(self.currentMachine.dimBuildPlattform)
+		cameraOffset = - 2*MAX( self.currentMachine.dimBuildPlattform.x, self.currentMachine.dimBuildPlattform.y);
+	else
+	{
 		NSRect boundsInPixelUnits = [self convertRect:[self frame] toView:nil];
-        cameraOffset = - 2*MAX( boundsInPixelUnits.size.width, boundsInPixelUnits.size.height);
-    }
+		cameraOffset = - 2*MAX( boundsInPixelUnits.size.width, boundsInPixelUnits.size.height);
+	}
 	worldRotation[0] = -45.f;
 	worldRotation[1] = 1.f;
 	worldRotation[2] = worldRotation[3] = 0.0f;
-	cameraTranslateX = 0.;
-	cameraTranslateY = 0.;
+	
+	if (self.currentMachine.dimBuildPlattform) {
+		Vector3 *mid = [self.currentMachine calcMidBuildPlatform];
+		cameraTranslateX = mid.x;
+		cameraTranslateY = mid.y;
+	} else {
+		cameraTranslateX = 0.;
+		cameraTranslateY = 0.;
+	}
+	
 	[self setNeedsDisplay:YES];
 }
 
@@ -253,7 +278,7 @@
 - (void)mouseDown:(NSEvent *)theEvent
 {
 	self.autorotate=NO;
-
+	
 	NSPoint event_location = [theEvent locationInWindow];
 	localMousePoint = [self convertPoint:event_location fromView:nil];
 	zoomCamera=([theEvent modifierFlags]&NSCommandKeyMask)!=0;
@@ -264,7 +289,7 @@
 		NSRect boundsInPixelUnits = [self convertRect:[self frame] toView:nil];
 		startTrackball (localMousePoint.x, localMousePoint.y, 0, 0, boundsInPixelUnits.size.width, boundsInPixelUnits.size.height);
 	}
-
+	
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
@@ -284,7 +309,7 @@
 	}
 	else if(threeD)
 	{
-        rollToTrackball (localPoint.x, localPoint.y, trackBallRotation);
+		rollToTrackball (localPoint.x, localPoint.y, trackBallRotation);
 	}
 	
 	[self setNeedsDisplay:YES];
@@ -333,8 +358,8 @@
 }
 
 - (BOOL)acceptsFirstResponder {
-    // We want this view to be able to receive key events.
-    return YES;
+	// We want this view to be able to receive key events.
+	return YES;
 }
 
 - (void)autorotate:(NSTimer*)timer
@@ -369,13 +394,13 @@
 }
 
 - (void)drawRect:(NSRect)aRect {
- 	// NSLog(@"Called: %s", _cmd);
+	// NSLog(@"Called: %s", _cmd);
 	if(!readyToDraw)
 	{
 		readyToDraw=YES;
 		[self setupProjection];
 	}
-    // Clear the framebuffer.
+	// Clear the framebuffer.
 	glClearColor( .08f, .08f, .08f, 1.f);
 	//glClearColor( 1.f, 1.f, 1.f, 1.f);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -385,58 +410,63 @@
 	glEnable (GL_LINE_SMOOTH); 
 	glEnable (GL_BLEND); 
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glLoadIdentity();	
+	
+	glLoadIdentity(); 
 	if(threeD)
-	{
-		glTranslatef((GLfloat)cameraTranslateX, (GLfloat)cameraTranslateY, (GLfloat)cameraOffset);
-		//glTranslatef((GLfloat)cameraTranslateX, (GLfloat)cameraTranslateY, 0.f);
-		if (trackBallRotation[0] != 0.0f) 
+	{		 
+		Vector3 *midPlatform = [self.currentMachine calcMidBuildPlatform];
+		glTranslatef((GLfloat)cameraTranslateX - midPlatform.x, 
+								 (GLfloat)cameraTranslateY - midPlatform.y, 
+								 (GLfloat)cameraOffset);
+		
+		if (trackBallRotation[0] != 0.0f) {
 			glRotatef (trackBallRotation[0], trackBallRotation[1], trackBallRotation[2], trackBallRotation[3]);
+		}
 		// accumlated world rotation via trackball
 		glRotatef (worldRotation[0], worldRotation[1], worldRotation[2], worldRotation[3]);
-//		glTranslatef(0.f, 0.f, (GLfloat)cameraOffset);
+		
+		glTranslatef(midPlatform.x, midPlatform.y, 0.);
 	}
 	else
 	{
 		glTranslatef((GLfloat)cameraTranslateX, (GLfloat)cameraTranslateY, 0.f);
 		glScalef(-200.f/(GLfloat)cameraOffset, -200.f/(GLfloat)cameraOffset, 1.f);
 	}
-
-    // Build Platform
-    if(self.currentMachine.dimBuildPlattform)
-    {
-        glLineWidth(1.f);
-        //glColor4f(1.f, .749f, 0.f, .1f);
-        glColor4f(1.f, 0.f, 0.f, 0.1f);
-        glBegin(GL_QUADS);
-        glVertex3f((GLfloat)-self.currentMachine.zeroBuildPlattform.x, (GLfloat)-self.currentMachine.zeroBuildPlattform.y, 0.f);
-        glVertex3f((GLfloat)-self.currentMachine.zeroBuildPlattform.x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
-        glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
-        glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)-self.currentMachine.zeroBuildPlattform.y, 0.f);
-        glEnd();
-        
-        glColor4f(1.f, 0.f, 0.f, .4f);
-        glBegin(GL_LINES);
-        for(float x=-self.currentMachine.zeroBuildPlattform.x; x<self.currentMachine.dimBuildPlattform.x-self.currentMachine.zeroBuildPlattform.x; x+=10.f)
-        {
-            glVertex3f((GLfloat)x, (GLfloat)-self.currentMachine.zeroBuildPlattform.y, 0.f);
-            glVertex3f((GLfloat)x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
-        }
-        glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)-self.currentMachine.zeroBuildPlattform.y, 0.f);
-        glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
-        
-        for(float y=-self.currentMachine.zeroBuildPlattform.y; y<self.currentMachine.dimBuildPlattform.y-self.currentMachine.zeroBuildPlattform.y; y+=10.f)
-        {
-            glVertex3f((GLfloat)-self.currentMachine.zeroBuildPlattform.x, (GLfloat)y, 0.f);
-            glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)y, 0.f);
-        }
-        glVertex3f((GLfloat)-self.currentMachine.zeroBuildPlattform.x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
-        glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
-        glEnd();
-    }
+	
+	// Build Platform
+	if(self.currentMachine.dimBuildPlattform)
+	{
+		glLineWidth(1.f);
+		//glColor4f(1.f, .749f, 0.f, .1f);
+		glColor4f(1.f, 0.f, 0.f, 0.1f);
+		glBegin(GL_QUADS);
+		glVertex3f((GLfloat)-self.currentMachine.zeroBuildPlattform.x, (GLfloat)-self.currentMachine.zeroBuildPlattform.y, 0.f);
+		glVertex3f((GLfloat)-self.currentMachine.zeroBuildPlattform.x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
+		glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
+		glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)-self.currentMachine.zeroBuildPlattform.y, 0.f);
+		glEnd();
+		
+		glColor4f(1.f, 0.f, 0.f, .4f);
+		glBegin(GL_LINES);
+		for(float x=-self.currentMachine.zeroBuildPlattform.x; x<self.currentMachine.dimBuildPlattform.x-self.currentMachine.zeroBuildPlattform.x; x+=10.f)
+		{
+			glVertex3f((GLfloat)x, (GLfloat)-self.currentMachine.zeroBuildPlattform.y, 0.f);
+			glVertex3f((GLfloat)x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
+		}
+		glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)-self.currentMachine.zeroBuildPlattform.y, 0.f);
+		glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
+		
+		for(float y=-self.currentMachine.zeroBuildPlattform.y; y<self.currentMachine.dimBuildPlattform.y-self.currentMachine.zeroBuildPlattform.y; y+=10.f)
+		{
+			glVertex3f((GLfloat)-self.currentMachine.zeroBuildPlattform.x, (GLfloat)y, 0.f);
+			glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)y, 0.f);
+		}
+		glVertex3f((GLfloat)-self.currentMachine.zeroBuildPlattform.x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
+		glVertex3f((GLfloat)self.currentMachine.dimBuildPlattform.x-(GLfloat)self.currentMachine.zeroBuildPlattform.x, (GLfloat)self.currentMachine.dimBuildPlattform.y-(GLfloat)self.currentMachine.zeroBuildPlattform.y, 0.f);
+		glEnd();
+	}
 	// Ende Build Platfom
-    
+	
 	glEnable(GL_DEPTH_TEST);
 	[self renderContent];
 	glDisable(GL_DEPTH_TEST);
@@ -447,7 +477,7 @@
 
 - (void)setCurrentMachine:(P3DMachineDriverBase*)value
 {
-    currentMachine=value;
-    [self setNeedsDisplay:YES];
+	currentMachine=value;
+	[self setNeedsDisplay:YES];
 }
 @end
