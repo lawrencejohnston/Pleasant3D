@@ -478,6 +478,6 @@
 - (void)setCurrentMachine:(P3DMachineDriverBase*)value
 {
 	currentMachine=value;
-	[self setNeedsDisplay:YES];
+	[self resetGraphics];
 }
 @end
