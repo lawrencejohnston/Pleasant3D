@@ -110,7 +110,7 @@ static CGColorRef _extrusionOffColor=nil;
 {
 	// 'brown', 'red', 'orange', 'yellow', 'green', 'blue', 'purple'
 	_extrusionColors = [NSArray arrayWithObjects:NSMakeCollectable(CGColorCreateGenericRGB(0.855, 0.429, 0.002, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(1.000, 0.000, 0.000, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(1.000, 0.689, 0.064, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(1.000, 1.000, 0.000, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(0.367, 0.742, 0.008, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(0.607, 0.598, 1.000, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(0.821, 0.000, 0.833, 1.000)), nil];
-	_extrusionOffColor = (CGColorRef)CFMakeCollectable(CGColorCreateGenericRGB(0.902, 0.902, 0.902, .1));
+	_extrusionOffColor = (CGColorRef)CFMakeCollectable(CGColorCreateGenericRGB(0.902, 0.902, 0.902, .6));
 }
 
 - (id)initWithGCodeString:(NSString*)gcode;
