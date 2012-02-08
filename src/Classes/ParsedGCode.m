@@ -138,13 +138,15 @@ static CGColorRef _extrusionOffColor=nil;
 		__block Vector3* highCorner = [[Vector3 alloc] initVectorWithX:-FLT_MAX Y:-FLT_MAX Z:-FLT_MAX];
 		__block Vector3* lowCorner = [[Vector3 alloc] initVectorWithX:FLT_MAX Y:FLT_MAX Z:FLT_MAX];
 		__block float localExtrutionWidth = 0.;
+		__block BOOL extruderWasOn = NO;
 		[gCodeLineScanners enumerateObjectsUsingBlock:^(id scanner, NSUInteger idx, BOOL *stop) {
 			NSScanner* lineScanner = (NSScanner*)scanner;
 			[lineScanner setScanLocation:0];
 			if([lineScanner isLayerStartWithCurrentLocation:currentLocation oldZ:&oldZ layerStartWordExists:isThereALayerStartWord])
 			{
 				extrusionNumber = 0;
-				currentPane = [NSMutableArray array];
+				extruderWasOn = NO;
+				currentPane = [NSMutableArray arrayWithObject:(id)_extrusionOffColor];
 				[panes addObject:currentPane];
 			}
 			
@@ -157,10 +159,16 @@ static CGColorRef _extrusionOffColor=nil;
 				
 				// We must set the color before the new location is added to the pane.
 				if([lineScanner extrusionIsOn]) {
-					extrusionNumber++;
-					[currentPane addObject:[_extrusionColors objectAtIndex:extrusionNumber%[_extrusionColors count]]];
+					if (!extruderWasOn) {
+						extruderWasOn = YES;
+						extrusionNumber++;
+						[currentPane addObject:[_extrusionColors objectAtIndex:extrusionNumber%[_extrusionColors count]]];
+					}
 				} else {
-					[currentPane addObject:(id)_extrusionOffColor];
+					if (extruderWasOn) {
+						extruderWasOn = NO;
+						[currentPane addObject:(id)_extrusionOffColor];
+					}
 				}
 				
 				[currentPane addObject:[[currentLocation copy] autorelease]];
