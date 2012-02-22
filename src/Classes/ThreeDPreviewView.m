@@ -237,14 +237,8 @@
 	worldRotation[1] = 1.f;
 	worldRotation[2] = worldRotation[3] = 0.0f;
 	
-	if (self.currentMachine.dimBuildPlattform) {
-		Vector3 *mid = [self.currentMachine calcMidBuildPlatform];
-		cameraTranslateX = mid.x;
-		cameraTranslateY = mid.y;
-	} else {
-		cameraTranslateX = 0.;
-		cameraTranslateY = 0.;
-	}
+	cameraTranslateX = 0.;
+	cameraTranslateY = 0.;
 	
 	[self setNeedsDisplay:YES];
 }
@@ -415,6 +409,8 @@
 	if(threeD)
 	{		 
 		Vector3 *midPlatform = [self.currentMachine calcMidBuildPlatform];
+		glTranslatef(midPlatform.x, midPlatform.y, 0.);
+		
 		glTranslatef((GLfloat)cameraTranslateX - midPlatform.x, 
 								 (GLfloat)cameraTranslateY - midPlatform.y, 
 								 (GLfloat)cameraOffset);
