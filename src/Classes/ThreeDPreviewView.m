@@ -415,13 +415,6 @@
 		
 		// Handle any panning done by the user
 		glTranslatef(cameraTranslateX, cameraTranslateY, 0);
-
-		// Position the bed in the middle of the view
-		glTranslatef((GLfloat)midPlatform.x, (GLfloat)midPlatform.y, 0.);
-
-		glTranslatef(-midPlatform.x, 
-					 -midPlatform.y, 
-					 0);
 		
 		if (trackBallRotation[0] != 0.0f) {
 			glRotatef (trackBallRotation[0], trackBallRotation[1], trackBallRotation[2], trackBallRotation[3]);
@@ -429,6 +422,8 @@
 		// accumlated world rotation via trackball
 		glRotatef (worldRotation[0], worldRotation[1], worldRotation[2], worldRotation[3]);
 		
+		
+		// Position the bed in the middle of the view
 		glTranslatef(midPlatform.x, midPlatform.y, 0.);
 	}
 	else
