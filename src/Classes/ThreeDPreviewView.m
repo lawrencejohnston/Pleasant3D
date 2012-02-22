@@ -409,11 +409,19 @@
 	if(threeD)
 	{		 
 		Vector3 *midPlatform = [self.currentMachine calcMidBuildPlatform];
-		glTranslatef(midPlatform.x, midPlatform.y, 0.);
 		
-		glTranslatef((GLfloat)cameraTranslateX - midPlatform.x, 
-								 (GLfloat)cameraTranslateY - midPlatform.y, 
-								 (GLfloat)cameraOffset);
+		// Move the camera back to the proper position
+		glTranslatef(0, 0, cameraOffset);
+		
+		// Handle any panning done by the user
+		glTranslatef(cameraTranslateX, cameraTranslateY, 0);
+
+		// Position the bed in the middle of the view
+		glTranslatef((GLfloat)midPlatform.x, (GLfloat)midPlatform.y, 0.);
+
+		glTranslatef(-midPlatform.x, 
+					 -midPlatform.y, 
+					 0);
 		
 		if (trackBallRotation[0] != 0.0f) {
 			glRotatef (trackBallRotation[0], trackBallRotation[1], trackBallRotation[2], trackBallRotation[3]);
