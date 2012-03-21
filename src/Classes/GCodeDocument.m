@@ -90,6 +90,7 @@
 						self.maxLayers = [parsedGCode.panes count]-1;
 						self.currentPreviewLayerHeight=0.;
 						openGLView.parsedGCode = parsedGCode;
+						openGLView.currentLayer = openGLView.maxLayers;
 						
 						// This is a hack! Otherwise, the OpenGL-View doesn't reshape properly.
 						// Not sure if this is a SnowLeopard Bug...
