@@ -11,6 +11,8 @@
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		DCE32C4B14DE122300F85188 /* P3DUltimaker.h in Headers */ = {isa = PBXBuildFile; fileRef = DCE32C4914DE122100F85188 /* P3DUltimaker.h */; };
 		DCE32C4C14DE122300F85188 /* P3DUltimaker.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE32C4A14DE122200F85188 /* P3DUltimaker.m */; };
+		E21E14EF14FDAA4500A4FC02 /* GCodeShapeShifter.h in Headers */ = {isa = PBXBuildFile; fileRef = E21E14ED14FDAA4500A4FC02 /* GCodeShapeShifter.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E21E14F014FDAA4500A4FC02 /* GCodeShapeShifter.m in Sources */ = {isa = PBXBuildFile; fileRef = E21E14EE14FDAA4500A4FC02 /* GCodeShapeShifter.m */; };
 		E21FB65B112D78C50024B53B /* P3DMachinableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E21FB659112D78C50024B53B /* P3DMachinableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E21FB8A3112D99580024B53B /* P3DMachiningQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = E21FB89F112D99580024B53B /* P3DMachiningQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E21FB8A4112D99580024B53B /* P3DMachiningQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = E21FB8A0112D99580024B53B /* P3DMachiningQueue.m */; };
@@ -134,6 +136,8 @@
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		DCE32C4914DE122100F85188 /* P3DUltimaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P3DUltimaker.h; sourceTree = "<group>"; };
 		DCE32C4A14DE122200F85188 /* P3DUltimaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P3DUltimaker.m; sourceTree = "<group>"; };
+		E21E14ED14FDAA4500A4FC02 /* GCodeShapeShifter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCodeShapeShifter.h; sourceTree = "<group>"; };
+		E21E14EE14FDAA4500A4FC02 /* GCodeShapeShifter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCodeShapeShifter.m; sourceTree = "<group>"; };
 		E21FB659112D78C50024B53B /* P3DMachinableDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P3DMachinableDocument.h; sourceTree = "<group>"; };
 		E21FB89F112D99580024B53B /* P3DMachiningQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P3DMachiningQueue.h; sourceTree = "<group>"; };
 		E21FB8A0112D99580024B53B /* P3DMachiningQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P3DMachiningQueue.m; sourceTree = "<group>"; };
@@ -459,6 +463,8 @@
 				E2ABBFC81100A793004CE17C /* STLShapeShifter.m */,
 				E2FC63B51162436000DC2E16 /* DAEImportPlugin.h */,
 				E2FC63B61162436100DC2E16 /* DAEImportPlugin.m */,
+				E21E14ED14FDAA4500A4FC02 /* GCodeShapeShifter.h */,
+				E21E14EE14FDAA4500A4FC02 /* GCodeShapeShifter.m */,
 			);
 			name = Private;
 			sourceTree = "<group>";
@@ -516,6 +522,7 @@
 				E274361D139003810062643A /* AMSDKCompatibility.h in Headers */,
 				E274361E139003810062643A /* AMStandardEnumerator.h in Headers */,
 				DCE32C4B14DE122300F85188 /* P3DUltimaker.h in Headers */,
+				E21E14EF14FDAA4500A4FC02 /* GCodeShapeShifter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,7 +556,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "Pleasant Software";
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "P3DCore" */;
@@ -624,6 +631,7 @@
 				E274362413929DD30062643A /* P3DMachineDriverBase.m in Sources */,
 				E27C8048139C8296000010FD /* P3DMachinableDocument.m in Sources */,
 				DCE32C4C14DE122300F85188 /* P3DUltimaker.m in Sources */,
+				E21E14F014FDAA4500A4FC02 /* GCodeShapeShifter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

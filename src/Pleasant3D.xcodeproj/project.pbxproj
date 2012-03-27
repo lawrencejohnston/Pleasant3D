@@ -11,6 +11,7 @@
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		E21DBC01113AD81F0009875E /* PSToolboxPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = E21DBC00113AD81F0009875E /* PSToolboxPanel.m */; };
+		E21E14F114FDAE9200A4FC02 /* GCodeImport.bundle in Copy Plugins */ = {isa = PBXBuildFile; fileRef = E21E14DD14FD67AD00A4FC02 /* GCodeImport.bundle */; };
 		E2264293108B7D7F002FCAD8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2264292108B7D7F002FCAD8 /* OpenGL.framework */; };
 		E2264295108B7D9F002FCAD8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2264294108B7D9F002FCAD8 /* QuartzCore.framework */; };
 		E22644B4108B98A0002FCAD8 /* P3DDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = E22644B3108B98A0002FCAD8 /* P3DDocumentController.m */; };
@@ -76,6 +77,8 @@
 		E2C187DC10FF51C900396141 /* STLImportPreviewGUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C1878F10FF470E00396141 /* STLImportPreviewGUI.xib */; };
 		E2D0FCA2112DA04800900531 /* MachiningQueue.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2D0FCA1112DA04800900531 /* MachiningQueue.xib */; };
 		E2D0FCA5112DA12100900531 /* MachiningQueueItemPrototype.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2D0FCA4112DA12100900531 /* MachiningQueueItemPrototype.xib */; };
+		E2D4788A14FED86600FC7833 /* ToolPlugin.xctemplate in CopyDevSupport */ = {isa = PBXBuildFile; fileRef = E2D4788814FED81800FC7833 /* ToolPlugin.xctemplate */; };
+		E2D4788B14FED86800FC7833 /* InstallDevSupport.command in CopyDevSupport */ = {isa = PBXBuildFile; fileRef = E2D4788514FED6FA00FC7833 /* InstallDevSupport.command */; };
 		E2D4E31E112D64EB00F67528 /* MachiningSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2D4E31D112D64EB00F67528 /* MachiningSheet.xib */; };
 		E2D4E326112D680500F67528 /* P3DMachiningController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D4E325112D680500F67528 /* P3DMachiningController.m */; };
 		E2D7B4B910FD056600927AE4 /* Tool.png in Resources */ = {isa = PBXBuildFile; fileRef = E2D7B4B810FD056600927AE4 /* Tool.png */; };
@@ -92,6 +95,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E21E14DC14FD67AD00A4FC02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E21E14D514FD67AD00A4FC02 /* GCodeImport.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
+			remoteInfo = STLImport;
+		};
+		E21E14F214FDB0F200A4FC02 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E21E14D514FD67AD00A4FC02 /* GCodeImport.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = GCodeImport;
+		};
 		E24337E6138FB2ED007B347E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E24337DF138FB2ED007B347E /* STLImport.xcodeproj */;
@@ -246,6 +263,7 @@
 				E24338B4138FB967007B347E /* GCodeGenerator.bundle in Copy Plugins */,
 				E24338B6138FB970007B347E /* ForwardTool.bundle in Copy Plugins */,
 				E24338B8138FB978007B347E /* FileSaver.bundle in Copy Plugins */,
+				E21E14F114FDAE9200A4FC02 /* GCodeImport.bundle in Copy Plugins */,
 			);
 			name = "Copy Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,6 +290,18 @@
 				E27435FA138FEC6A0062643A /* PleasantMill.bundle in CopyMachineDrivers */,
 			);
 			name = CopyMachineDrivers;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2D4788914FED84000FC7833 /* CopyDevSupport */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/DevSupport;
+			dstSubfolderSpec = 1;
+			files = (
+				E2D4788A14FED86600FC7833 /* ToolPlugin.xctemplate in CopyDevSupport */,
+				E2D4788B14FED86800FC7833 /* InstallDevSupport.command in CopyDevSupport */,
+			);
+			name = CopyDevSupport;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E2F3BF4410F78CBF005224CD /* Copy QuickLook Plugins */ = {
@@ -305,6 +335,7 @@
 		8D15AC370486D014006FF6A4 /* Pleasant3D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pleasant3D.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21DBBFF113AD81F0009875E /* PSToolboxPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSToolboxPanel.h; sourceTree = "<group>"; };
 		E21DBC00113AD81F0009875E /* PSToolboxPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSToolboxPanel.m; sourceTree = "<group>"; };
+		E21E14D514FD67AD00A4FC02 /* GCodeImport.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GCodeImport.xcodeproj; path = subprj/ToolPlugins/GCodeImport/GCodeImport.xcodeproj; sourceTree = "<group>"; };
 		E226424B108B78EB002FCAD8 /* STLPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLPreviewView.h; sourceTree = "<group>"; };
 		E226424C108B78EB002FCAD8 /* STLPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLPreviewView.m; sourceTree = "<group>"; };
 		E2264292108B7D7F002FCAD8 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -394,6 +425,8 @@
 		E2C1879710FF47B200396141 /* STLPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLPreviewController.m; sourceTree = "<group>"; };
 		E2D0FCA1112DA04800900531 /* MachiningQueue.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MachiningQueue.xib; sourceTree = "<group>"; };
 		E2D0FCA4112DA12100900531 /* MachiningQueueItemPrototype.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MachiningQueueItemPrototype.xib; sourceTree = "<group>"; };
+		E2D4788514FED6FA00FC7833 /* InstallDevSupport.command */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = InstallDevSupport.command; path = ../DevSupport/InstallDevSupport.command; sourceTree = "<group>"; };
+		E2D4788814FED81800FC7833 /* ToolPlugin.xctemplate */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ToolPlugin.xctemplate; path = Resources/DevSupport/ToolPlugin.xctemplate; sourceTree = SOURCE_ROOT; };
 		E2D4E31D112D64EB00F67528 /* MachiningSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MachiningSheet.xib; sourceTree = "<group>"; };
 		E2D4E324112D680500F67528 /* P3DMachiningController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P3DMachiningController.h; sourceTree = "<group>"; };
 		E2D4E325112D680500F67528 /* P3DMachiningController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P3DMachiningController.m; sourceTree = "<group>"; };
@@ -498,6 +531,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E2D4788714FED7A300FC7833 /* DevSupport */,
 				E24338AD138FB8BE007B347E /* Frameworks&Bundles */,
 				E254217510FB5700005D08F7 /* Images */,
 				E254217410FB56E3005D08F7 /* XIBs */,
@@ -513,6 +547,14 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E21E14D614FD67AD00A4FC02 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E21E14DD14FD67AD00A4FC02 /* GCodeImport.bundle */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		E2264248108B78EB002FCAD8 /* Preview STL */ = {
@@ -579,6 +621,7 @@
 		E24337FB138FB372007B347E /* Tool Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				E21E14D514FD67AD00A4FC02 /* GCodeImport.xcodeproj */,
 				E2433811138FB385007B347E /* FileSaver.xcodeproj */,
 				E2433808138FB381007B347E /* ForwardTool.xcodeproj */,
 				E24337FF138FB379007B347E /* GcodeGenerator.xcodeproj */,
@@ -816,6 +859,16 @@
 			name = DefaultPreviews;
 			sourceTree = "<group>";
 		};
+		E2D4788714FED7A300FC7833 /* DevSupport */ = {
+			isa = PBXGroup;
+			children = (
+				E2D4788814FED81800FC7833 /* ToolPlugin.xctemplate */,
+				E2D4788514FED6FA00FC7833 /* InstallDevSupport.command */,
+			);
+			name = DevSupport;
+			path = Resources/etc;
+			sourceTree = "<group>";
+		};
 		E2D4E32C112D6AF900F67528 /* Printing */ = {
 			isa = PBXGroup;
 			children = (
@@ -896,6 +949,7 @@
 				E25420B310FA0B5F005D08F7 /* Copy Frameworks */,
 				E24338AE138FB939007B347E /* Copy Plugins */,
 				E27435F9138FEC1F0062643A /* CopyMachineDrivers */,
+				E2D4788914FED84000FC7833 /* CopyDevSupport */,
 			);
 			buildRules = (
 			);
@@ -904,6 +958,7 @@
 				E2433897138FB52F007B347E /* PBXTargetDependency */,
 				E2433895138FB524007B347E /* PBXTargetDependency */,
 				E243389B138FB53F007B347E /* PBXTargetDependency */,
+				E21E14F314FDB0F200A4FC02 /* PBXTargetDependency */,
 				E243389D138FB53F007B347E /* PBXTargetDependency */,
 				E243389F138FB53F007B347E /* PBXTargetDependency */,
 				E24338A3138FB53F007B347E /* PBXTargetDependency */,
@@ -952,6 +1007,10 @@
 					ProjectRef = E24337FF138FB379007B347E /* GcodeGenerator.xcodeproj */;
 				},
 				{
+					ProductGroup = E21E14D614FD67AD00A4FC02 /* Products */;
+					ProjectRef = E21E14D514FD67AD00A4FC02 /* GCodeImport.xcodeproj */;
+				},
+				{
 					ProductGroup = E2871341138FAF9600439C45 /* Products */;
 					ProjectRef = E2871340138FAF9600439C45 /* GCodeQuickLook.xcodeproj */;
 				},
@@ -988,6 +1047,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		E21E14DD14FD67AD00A4FC02 /* GCodeImport.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GCodeImport.bundle;
+			remoteRef = E21E14DC14FD67AD00A4FC02 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		E24337E7138FB2ED007B347E /* STLImport.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -1147,6 +1213,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E21E14F314FDB0F200A4FC02 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GCodeImport;
+			targetProxy = E21E14F214FDB0F200A4FC02 /* PBXContainerItemProxy */;
+		};
 		E2433895138FB524007B347E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = STLQuickLook;
@@ -1220,7 +1291,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Eberhard Rensch";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1228,6 +1299,8 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/etc/Pleasant3D-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Pleasant3D;
+				PROVISIONING_PROFILE = "";
+				RUN_CLANG_STATIC_ANALYZER = YES;
 			};
 			name = Release;
 		};
@@ -1237,6 +1310,7 @@
 				APPLICATION_BUILD_NUMBER = 6;
 				APPLICATION_VERSION = 2.0;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Frameworks/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_GC = required;
@@ -1245,6 +1319,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
@@ -1257,49 +1332,18 @@
 				APPLICATION_BUILD_NUMBER = 6;
 				APPLICATION_VERSION = 2.0;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Frameworks/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
-		};
-		E29BBF951131FA640058A121 /* Distribution */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_BUILD_NUMBER = 6;
-				APPLICATION_VERSION = 2.0;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CODE_SIGN_IDENTITY = "Pleasant Software";
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Frameworks/";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_GC = required;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				SDKROOT = macosx;
-				VALID_ARCHS = "i386 x86_64";
-			};
-			name = Distribution;
-		};
-		E29BBF961131FA640058A121 /* Distribution */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Eberhard Rensch";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/Classes/Pleasant3D_Prefix.pch";
-				INFOPLIST_FILE = "$(SRCROOT)/Resources/etc/Pleasant3D-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = Pleasant3D;
-			};
-			name = Distribution;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1309,7 +1353,6 @@
 			buildConfigurations = (
 				C05733C808A9546B00998B17 /* Debug */,
 				C05733C908A9546B00998B17 /* Release */,
-				E29BBF961131FA640058A121 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1319,7 +1362,6 @@
 			buildConfigurations = (
 				C05733CC08A9546B00998B17 /* Debug */,
 				C05733CD08A9546B00998B17 /* Release */,
-				E29BBF951131FA640058A121 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
