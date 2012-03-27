@@ -219,13 +219,20 @@ static GLuint makeMask(NSInteger n)
 					}
 					else
 					{
-						const CGFloat* color = CGColorGetComponents((CGColorRef)elem);
+						NSColor *color = elem;
+						GLfloat alphaMultiplier;
+						
 						if(currentLayer > layer)
-							glColor4f((GLfloat)color[0], (GLfloat)color[1], (GLfloat)color[2], (GLfloat)color[3]*powf((GLfloat)othersAlpha,3.f)); 
+							alphaMultiplier = powf((GLfloat)othersAlpha,3.f); 
 						else if(currentLayer < layer)
-							glColor4f((GLfloat)color[0], (GLfloat)color[1], (GLfloat)color[2], ((GLfloat)color[3]*powf((GLfloat)othersAlpha,3.f))/(1.f+20.f*powf((GLfloat)othersAlpha, 3.f))); 
+							alphaMultiplier = powf((GLfloat)othersAlpha,3.f)/(1.f+20.f*powf((GLfloat)othersAlpha, 3.f)); 
 						else
-							glColor4f((GLfloat)color[0], (GLfloat)color[1], (GLfloat)color[2], (GLfloat)color[3]);
+							alphaMultiplier = 1;
+						
+						glColor4f((GLfloat)color.redComponent, 
+								  (GLfloat)color.greenComponent, 
+								  (GLfloat)color.blueComponent, 
+								  (GLfloat)color.alphaComponent*alphaMultiplier);
 					}
 				}
 				layer++;

@@ -105,12 +105,20 @@
 @synthesize cornerHigh, cornerLow, extrusionWidth, panes;
 
 static NSArray* _extrusionColors=nil;
-static CGColorRef _extrusionOffColor=nil;
+static NSColor* _extrusionOffColor=nil;
 + (void)initialize
 {
-	// 'brown', 'red', 'orange', 'yellow', 'green', 'blue', 'purple'
-	_extrusionColors = [NSArray arrayWithObjects:NSMakeCollectable(CGColorCreateGenericRGB(0.855, 0.429, 0.002, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(1.000, 0.000, 0.000, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(1.000, 0.689, 0.064, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(1.000, 1.000, 0.000, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(0.367, 0.742, 0.008, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(0.607, 0.598, 1.000, 1.000)), NSMakeCollectable(CGColorCreateGenericRGB(0.821, 0.000, 0.833, 1.000)), nil];
-	_extrusionOffColor = (CGColorRef)CFMakeCollectable(CGColorCreateGenericRGB(0.902, 0.902, 0.902, .6));
+	_extrusionColors = [NSArray arrayWithObjects:
+						[[NSColor brownColor] colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]], 
+						[[NSColor redColor] colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]],
+						[[NSColor orangeColor] colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]],
+						[[NSColor yellowColor] colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]],
+						[[NSColor greenColor] colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]],
+						[[NSColor blueColor] colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]],
+						[[NSColor purpleColor] colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]], 
+						nil];
+						
+	_extrusionOffColor = [[[NSColor grayColor] colorWithAlphaComponent:0.6] colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
 }
 
 - (id)initWithGCodeString:(NSString*)gcode;
@@ -146,7 +154,7 @@ static CGColorRef _extrusionOffColor=nil;
 			{
 				extrusionNumber = 0;
 				extruderWasOn = NO;
-				currentPane = [NSMutableArray arrayWithObject:(id)_extrusionOffColor];
+				currentPane = [NSMutableArray arrayWithObject:_extrusionOffColor];
 				[panes addObject:currentPane];
 			}
 			
@@ -167,7 +175,7 @@ static CGColorRef _extrusionOffColor=nil;
 				} else {
 					if (extruderWasOn) {
 						extruderWasOn = NO;
-						[currentPane addObject:(id)_extrusionOffColor];
+						[currentPane addObject:_extrusionOffColor];
 					}
 				}
 				
@@ -183,7 +191,7 @@ static CGColorRef _extrusionOffColor=nil;
 			}
 			else if([lineScanner scanString:@"M103" intoString:nil])
 			{
-				[currentPane addObject:(id)_extrusionOffColor];
+				[currentPane addObject:_extrusionOffColor];
 			}			
 			else if([lineScanner scanString:@"(<extrusionWidth>" intoString:nil])
 			{
